@@ -1,0 +1,6 @@
+*.vscode/
+*.vs/
+*bin/
+*obj/
+wiki/
+BroMaker/src/BroMaker/NewFolder1/
