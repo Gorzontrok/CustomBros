@@ -1,0 +1,23 @@
+{
+    "name": "Bronobi",
+    "characterPreset": "Bronobi",
+    "abilities": {
+      "BronobiForceWave": ["UseSpecial"]
+    },
+    "parameters": {
+      "BetterAnimation": true
+    },
+    "beforeAwake": {
+      "_jumpForce": 300,
+      "speed": 130,
+      "fireRate": 0.2,
+      "canChimneyFlip": true
+    },
+    "afterAwake": {},
+    "beforeStart": {},
+    "afterStart": {
+      "sprite": "Bronobi_anim.png",
+      "gunSprite": "Bronobi_gun_anim.png",
+      "player.hud.avatar": "avatar_Bronobi.png"
+    }
+  }

@@ -1,0 +1,7 @@
+{
+    "name": "BronobiForceWave",
+    "preset": "ForceWave",
+    "beforeAwake": {
+        "forceWaveTexture": "BronobiForceWave.png"
+    }
+}

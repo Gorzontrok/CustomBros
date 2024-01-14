@@ -7,7 +7,6 @@ using UnityEngine;
 
 namespace BronobiMod
 {
-    [AbilityPreset("BronobiForceWave", BronobiForceWave.CallMethod)]
     public class BronobiForceWave : FlameWallExplosion
     {
         public static void CallMethod(TestVanDammeAnim testVanDammeAnim)
@@ -42,7 +41,6 @@ namespace BronobiMod
         {
             try
             {
-                SetupLightExplosions();
                 assasinateUnits = true;
                 damageDoodads = false;
                 damageGround = false;
@@ -61,7 +59,7 @@ namespace BronobiMod
             }
         }
 
-        private void SetupLightExplosions()
+        public void Setup(Texture2D texture)
         {
             try
             {
@@ -75,10 +73,10 @@ namespace BronobiMod
                 MeshRenderer renderer = lightExplosion.gameObject.GetComponent<MeshRenderer>();
 
                 Material mat = new Material(matildaPuff.GetComponent<MeshRenderer>().material);
-                Texture2D tex = ResourcesController.CreateTexture(Main.ExtractResource("BronobiMod._Mod.BronobiForceWave.png"));
+                Texture2D tex = texture;
                 if (tex != null)
                 {
-                    mat.color = Color.cyan;
+                    //mat.color = Color.cyan;
                     mat.mainTexture = tex;
                 }
                 renderer.material = mat;
@@ -96,6 +94,5 @@ namespace BronobiMod
                 BMLogger.Log($"[{typeof(BronobiForceWave)}] {ex}");
             }
         }
-
     }
 }

@@ -31,9 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\Assembly-CSharp.dll</HintPath>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>..\..\..\Mods-Broforce\lib\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="BroMakerLib">
       <HintPath>E:\SteamLibrary\steamapps\common\Broforce\Mods\BroMaker\BroMakerLib.dll</HintPath>
@@ -44,35 +43,28 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\UnityEngine.dll</HintPath>
+    <Reference Include="UnityEngine">
+      <HintPath>..\..\..\Mods-Broforce\lib\UnityEngine.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\UnityEngine.CoreModule.dll</HintPath>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>..\..\..\Mods-Broforce\lib\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bronobi.cs" />
     <Compile Include="BronobiForceWave.cs" />
+    <Compile Include="ForceWave.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <EmbeddedResource Include="..\..\_SharedTextures\Bronobi\BronobiForceWave.png">
-      <Link>_Mod\BronobiForceWave.png</Link>
-    </EmbeddedResource>
-    <None Include="..\..\_SharedTextures\Bronobi\Bronobi_anim.png">
-      <Link>_Mod\Bronobi_anim.png</Link>
-    </None>
-    <None Include="..\..\_SharedTextures\Bronobi\Bronobi_gun_anim.png">
-      <Link>_Mod\Bronobi_gun_anim.png</Link>
-    </None>
+    <None Include="_Mod\Bronobi.json" />
+    <None Include="_Mod\bronobi.mod.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>start XCOPY /Y /R "$(TargetPath)" "$(ProjectDir)\_Mod\$(ProjectName).dll*"
-start xcopy /y /i "$(ProjectDir)_Mod\*.*" "E:\SteamLibrary\steamapps\common\Broforce\Mods\BroMaker\Storage\Bros\$(ProjectName)\"</PostBuildEvent>
+start xcopy /y /i "$(ProjectDir)_Mod\*.*" "E:\SteamLibrary\steamapps\common\Broforce\BroMaker_Storage\$(ProjectName)\"</PostBuildEvent>
   </PropertyGroup>
 </Project>

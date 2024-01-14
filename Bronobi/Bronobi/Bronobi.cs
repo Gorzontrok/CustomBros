@@ -22,42 +22,5 @@ namespace BronobiMod
             XI *= 1.2f;
             YI *= 1.2f;
         }
-
-        protected override void UseSpecial()
-        {
-            if (SpecialAmmo > 0)
-            {
-                /* DirectionEnum direction;
-                 if (this.right)
-                 {
-                     direction = DirectionEnum.Right;
-                 }
-                 else if (this.left)
-                 {
-                     direction = DirectionEnum.Left;
-                 }
-                 else if (base.transform.localScale.x > 0f)
-                 {
-                     direction = DirectionEnum.Right;
-                 }
-                 else
-                 {
-                     direction = DirectionEnum.Left;
-                 }*/
-                try
-                {
-
-                }
-                catch (Exception ex)
-                {
-                    BMLogger.Log($"[{typeof(Bronobi)}] {ex}");
-                }
-            }
-            else
-            {
-                this.player.StopAvatarSpecialFrame();
-                HeroController.FlashSpecialAmmo(base.playerNum);
-            }
-        }
     }
 }

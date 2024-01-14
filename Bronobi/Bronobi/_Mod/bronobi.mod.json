@@ -1,0 +1,17 @@
+{
+    "Id": "com.gorzontrok.bronobi",
+    "Version": "1.0.0",
+    "BroMakerVersion": "0.0.0",
+    "Name": "Bronobi",
+    "Author": "Gorzontrok",
+
+    "CustomBros":[
+        "Bronobi.json"
+    ],
+    "Assemblies": [
+        "Bronobi.dll"
+    ],
+    "Abilities":[
+        "BronobiForceWave.json"
+    ]
+}
