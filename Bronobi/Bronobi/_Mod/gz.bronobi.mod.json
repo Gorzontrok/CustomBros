@@ -1,7 +1,7 @@
 {
     "Name": "Bronobi",
-    "Version": "1.0.0",
-    "BroMakerVersion": "0.0.0",
+    "Version": "0.1.0",
+    "BroMakerVersion": "2.3.0",
     "Author": "Gorzontrok",
 
     "CustomBros":[
