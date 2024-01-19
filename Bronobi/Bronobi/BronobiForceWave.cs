@@ -76,7 +76,6 @@ namespace BronobiMod
                 Texture2D tex = texture;
                 if (tex != null)
                 {
-                    //mat.color = Color.cyan;
                     mat.mainTexture = tex;
                 }
                 renderer.material = mat;

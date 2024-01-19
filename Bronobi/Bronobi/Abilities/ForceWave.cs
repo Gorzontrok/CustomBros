@@ -2,7 +2,7 @@
 using BroMakerLib.Attributes;
 using UnityEngine;
 
-namespace BronobiMod
+namespace BronobiMod.Abilities
 {
     [AbilityPreset("ForceWave")]
     public class ForceWave : CharacterAbility
