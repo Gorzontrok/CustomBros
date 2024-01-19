@@ -1,8 +1,5 @@
-﻿using System;
-using UnityEngine;
-using BroMakerLib.CustomObjects.Bros;
+﻿using BroMakerLib.CustomObjects.Bros;
 using BroMakerLib;
-using BroMakerLib.Loggers;
 
 namespace BronobiMod
 {
@@ -11,10 +8,6 @@ namespace BronobiMod
     {
         protected BronobiForceWave forceWave;
 
-        /*protected override void SetGunPosition(float xOffset, float yOffset)
-        {
-            this.gunSprite.transform.localPosition = new Vector3(xOffset + 4f, yOffset, -1f);
-        }*/
 
         protected override void SetupThrownMookVelocity(out float XI, out float YI)
         {

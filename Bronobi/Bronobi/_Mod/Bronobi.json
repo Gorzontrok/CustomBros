@@ -23,5 +23,33 @@
   "afterStart": {
     "sprite": "Bronobi_anim.png",
     "gunSprite": "Bronobi_gun_anim.png"
+  },
+  "cutscene": {
+    "heading": "Bronobi",
+    "subtitle1": "Joins the Battle!",
+    "subtitle2": "",
+    "headingScale": 0.15,
+    "subtitleScale": 0.1,
+    "playCutsceneOnFirstSpawn": false,
+    "spritePath": "",
+    "spriteSize": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "spriteRect": {
+      "x": 0.0,
+      "y": 0.0,
+      "width": 0.0,
+      "height": 0.0
+    },
+    "spriteAnimRateFramesWidth": {
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    },
+    "barkPath": "",
+    "fanfarePath": "",
+    "anim": "",
+    "playDefaultFanfare": true
   }
 }

@@ -60,7 +60,7 @@
   <ItemGroup />
   <ItemGroup>
     <None Include="_Mod\Bronobi.json" />
-    <None Include="_Mod\bronobi.mod.json" />
+    <None Include="_Mod\gz.bronobi.mod.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
