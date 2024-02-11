@@ -10,7 +10,13 @@
     "Assemblies": [
         "Bronobi.dll"
     ],
-    "Abilities":[
-        "BronobiForceWave.json"
+    "Abilities": [
+        {
+          "name": "BronobiMindControlWave",
+          "preset": "MindControlWave",
+          "beforeAwake": {
+            "waveTexture": "BronobiForceWave.png"
+          }
+        }
     ]
 }
