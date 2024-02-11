@@ -52,10 +52,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abilities\AutoReflect.cs" />
+    <Compile Include="Abilities\MindControlWaveAbility.cs" />
     <Compile Include="Bronobi.cs" />
     <Compile Include="BronobiForceWave.cs" />
     <Compile Include="Abilities\ForceWave.cs" />
     <Compile Include="Main.cs" />
+    <Compile Include="MindControlWave.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

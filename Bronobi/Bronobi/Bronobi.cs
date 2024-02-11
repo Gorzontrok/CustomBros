@@ -1,5 +1,6 @@
 ﻿using BroMakerLib.CustomObjects.Bros;
 using BroMakerLib;
+using UnityEngine;
 
 namespace BronobiMod
 {
@@ -7,7 +8,12 @@ namespace BronobiMod
     public class Bronobi : SwordHero
     {
         protected BronobiForceWave forceWave;
+        protected Texture2D gunGrabSprite;
 
+        protected override void Awake()
+        {
+            base.Awake();
+        }
 
         protected override void SetupThrownMookVelocity(out float XI, out float YI)
         {
