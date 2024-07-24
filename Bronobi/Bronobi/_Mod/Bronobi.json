@@ -26,13 +26,35 @@
     "gunSprite": "Bronobi_gun_anim.png"
   },
   "cutscene": {
+    "playCutsceneOnFirstSpawn": true,
     "heading": "Bronobi",
-    "subtitle1": "Joins the Battle!",
-    "subtitle2": "",
     "headingScale": 0.15,
+    "headingColor": {
+      "r": 0.925,
+      "g": 0.016,
+      "b": 0.082,
+      "a": 1.0
+    },
+
+    "subtitle1": "Hello There!",
+    "subtitle1Color": {
+      "r": 0.278,
+      "g": 0.376,
+      "b": 0.953,
+      "a": 1.0
+    },
+
+    "hasSecondSubtitle": true,
+    "subtitle2": "Test Subtitle 2",
+    "subtitle2Color": {
+      "r": 0.278,
+      "g": 0.376,
+      "b": 0.953,
+      "a": 1.0
+    },
     "subtitleScale": 0.1,
-    "playCutsceneOnFirstSpawn": false,
-    "spritePath": "",
+
+    "spritePath": "Bronobi_Cutscene.png",
     "spriteSize": {
       "x": 0.0,
       "y": 0.0
@@ -40,17 +62,22 @@
     "spriteRect": {
       "x": 0.0,
       "y": 0.0,
-      "width": 0.0,
-      "height": 0.0
+      "width": 256,
+      "height": 256
     },
+    "isAnimated": true,
+    "animationLoop": false,
+    "animationPingPong": false,
+    "animationStartDelay": 0.2,
     "spriteAnimRateFramesWidth": {
-      "x": 0.0,
-      "y": 0.0,
-      "z": 0.0
+      "FrameRate": 0.16,
+      "TotalFrames": 6.0,
+      "FrameWidth": 42.5
     },
     "barkPath": "",
+    "playDefaultFanfare": true,
     "fanfarePath": "",
     "anim": "",
-    "playDefaultFanfare": true
+    "backgroundPath": ""
   }
 }
