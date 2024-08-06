@@ -52,6 +52,10 @@
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>..\..\..\Mods-Broforce\lib\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\_lib\UnityEngine.PhysicsModule.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abilities\AutoReflect.cs" />
