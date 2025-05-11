@@ -1,8 +1,5 @@
 ﻿using BroMakerLib.Loggers;
 using System;
-using System.Collections.Generic;
-using BroMakerLib;
-using BroMakerLib.Attributes;
 using UnityEngine;
 
 namespace BronobiMod
@@ -63,30 +60,10 @@ namespace BronobiMod
         {
             try
             {
-                Puff matildaPuff = (HeroController.GetHeroPrefab(HeroType.TheBrofessional) as TheBrofessional).matildaTargettingWavePrefab.lightExplosion;
+                lightExplosion = MindControlWave.GetForceWavePuff(texture);
 
-                lightExplosion = new GameObject("BronobiForceWave_Puff", new Type[] { typeof(Transform), typeof(MeshFilter), typeof(MeshRenderer), typeof(SpriteSM), typeof(Puff) }).GetComponent<Puff>();
-                lightExplosion.frameRate = 0.01f;
-                lightExplosion.pauseFrame = 12;
-                lightExplosion.gameObject.layer = 19;
-
-                MeshRenderer renderer = lightExplosion.gameObject.GetComponent<MeshRenderer>();
-
-                Material mat = new Material(matildaPuff.GetComponent<MeshRenderer>().material);
-                Texture2D tex = texture;
-                if (tex != null)
-                {
-                    mat.mainTexture = tex;
-                }
-                renderer.material = mat;
-                SpriteSM sprite = lightExplosion.gameObject.GetComponent<SpriteSM>();
-                sprite.lowerLeftPixel = new Vector2(0, 64);
-                sprite.pixelDimensions = new Vector2(16, 64);
-
-                sprite.plane = SpriteBase.SPRITE_PLANE.XY;
-                sprite.width = 16;
-                sprite.height = 64;
-                sprite.offset = new Vector3(0, 0, -5);
+                MatildaTargettingWave wave = (HeroController.GetHeroPrefab(HeroType.TheBrofessional) as TheBrofessional).matildaTargettingWavePrefab;
+                flashBangSoundHolder = wave.flashBangSoundHolder;
             }
             catch (Exception ex)
             {

@@ -15,7 +15,15 @@
           "name": "BronobiMindControlWave",
           "preset": "MindControlWave",
           "beforeAwake": {
-            "waveTexture": "BronobiForceWave.png"
+            "waveTexture": "BronobiForceWave.png",
+            "controlTime":  10
+          }
+        },
+        {
+          "name": "BronobiForceWave",
+          "preset": "ForceWave",
+          "beforeAwake": {
+            "forceWaveTexture": "BronobiForceWave.png"
           }
         }
     ]

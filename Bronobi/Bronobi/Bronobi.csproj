@@ -31,11 +31,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="0Harmony">
+      <HintPath>..\..\..\_lib\0Harmony.dll</HintPath>
+    </Reference>
     <Reference Include="Assembly-CSharp">
       <HintPath>..\..\..\Mods-Broforce\lib\Assembly-CSharp.dll</HintPath>
     </Reference>
-    <Reference Include="BroMakerLib">
-      <HintPath>E:\SteamLibrary\steamapps\common\Broforce\Mods\BroMaker\BroMakerLib.dll</HintPath>
+    <Reference Include="BroMakerLib, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>D:\SteamLibrary\steamapps\common\Broforce\Mods\BroMaker\BroMakerLib.dll</HintPath>
     </Reference>
     <Reference Include="RocketLib">
       <HintPath>E:\SteamLibrary\steamapps\common\Broforce\Mods\RocketLib\RocketLib.dll</HintPath>
@@ -48,6 +52,10 @@
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine">
       <HintPath>..\..\..\Mods-Broforce\lib\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AudioModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\_lib\UnityEngine.AudioModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>..\..\..\Mods-Broforce\lib\UnityEngine.CoreModule.dll</HintPath>
@@ -63,6 +71,8 @@
     <Compile Include="Bronobi.cs" />
     <Compile Include="BronobiForceWave.cs" />
     <Compile Include="Abilities\ForceWave.cs" />
+    <Compile Include="BronobiGhost.cs" />
+    <Compile Include="MindControlEffect.cs" />
     <Compile Include="MindControlWave.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -74,6 +84,6 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>start XCOPY /Y /R "$(TargetPath)" "$(ProjectDir)\_Mod\$(ProjectName).dll*"
-start xcopy /y /i "$(ProjectDir)_Mod\*.*" "E:\SteamLibrary\steamapps\common\Broforce\BroMaker_Storage\$(ProjectName)\"</PostBuildEvent>
+start xcopy /Y /i "$(ProjectDir)_Mod\*.*" "D:\SteamLibrary\steamapps\common\Broforce\BroMaker_Storage\$(ProjectName)\"</PostBuildEvent>
   </PropertyGroup>
 </Project>
