@@ -141,7 +141,7 @@ namespace BronobiMod
             UngrabMook();
             base.Death(xI, yI, damage);
             // Spawn Ghost
-            BronobiGhost.CreateAGhost(ghostSprite);
+            BronobiGhost.CreateAGhost(ghostSprite, X, Y);
         }
 
         #region Melee
