@@ -6,10 +6,14 @@ using UnityEngine;
 
 namespace BronobiMod
 {
+    public enum GhostState { Starting, Idle, Gift, Leaving}
     public class BronobiGhost : MonoBehaviour
     {
         const int spawnAnimEndCol = 7;
         public Texture texture;
+
+        private GhostState state = GhostState.Starting;
+
         public static BronobiGhost CreateAGhost(Texture2D sprite)
         {
             GameObject gameObject = new GameObject("BronobiGhost", new Type[] { typeof(MeshRenderer), typeof(SpriteSM), typeof(BronobiGhost) });
@@ -23,9 +27,22 @@ namespace BronobiMod
 
         public SpriteSM Sprite { get; private set; }
 
-        void Awake()
+        private void Awake()
         {
             Sprite = gameObject.GetComponent<SpriteSM>();
         }
+
+        void AnimateStarting()
+        { }
+
+        void AnimateIdle()
+        { }
+
+        void AnimateGift()
+        {
+        }
+
+        void AnimateLeaving()
+        { }
     }
 }

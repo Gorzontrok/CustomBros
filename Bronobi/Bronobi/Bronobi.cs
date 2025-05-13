@@ -2,7 +2,6 @@
 using BroMakerLib;
 using UnityEngine;
 using System;
-using System.IO;
 using BroMakerLib.Loggers;
 
 namespace BronobiMod
@@ -14,6 +13,7 @@ namespace BronobiMod
         public MindControlWave mindControlforceWave;
 
         protected Texture2D gunGrabSprite;
+        protected Texture2D ghostSprite;
         protected Texture originalGunSprite;
         protected Vector2 grabDistance =  new Vector2(2, 2);
 
@@ -61,15 +61,12 @@ namespace BronobiMod
             });
         }
 
-       /* protected override void PlayAttackSound()
-        {
-            //PlayAttackSound(1f);
-        }*/
-
         protected override void Awake()
         {
             meleeType = MeleeType.Custom;
             base.Awake();
+
+            ghostSprite = ResourcesController.GetTexture(info.path, "Bronobi_Ghost_anim.png");
 
             try
             {
@@ -144,6 +141,7 @@ namespace BronobiMod
             UngrabMook();
             base.Death(xI, yI, damage);
             // Spawn Ghost
+            BronobiGhost.CreateAGhost(ghostSprite);
         }
 
         #region Melee
