@@ -7,7 +7,7 @@ using UnityEngine;
 namespace BronobiMod
 {
     public enum GhostState { Starting, Idle, Gift, Leaving}
-    public enum GhostGIft { Life, Special, FlexPower, Pig}
+    public enum GhostGift { Life, Special, FlexPower, Pig, Perk}
     public class BronobiGhost : MonoBehaviour
     {
         const int spawnAnimEndCol = 7;
@@ -141,13 +141,23 @@ namespace BronobiMod
                         HeroController.AddLife(_giftedPlayer);
                         break;
                     default:
-                        HeroController.SetSpecialAmmo(_giftedPlayer, )
+                        HeroController.SetSpecialAmmo(_giftedPlayer, HeroController.players[_giftedPlayer].chara)
                 }
             }
             if (col == 23)
             {
                 //Die?
             }
+        }
+
+        void Gift()
+        {
+            List<GhostGift> gifts = (GhostGift[])Enum.GetValues(typeof(GhostGift)).TOList
+                ;
+            TestVanDammeAnim bro = HeroController.players[_giftedPlayer].character;
+            if (bro.SpecialAmmo >= bro.originalSpecialAmmo)
+                gifts.remom
+
         }
 
         void AnimateLeaving()
