@@ -7,7 +7,7 @@ using UnityEngine;
 namespace BronobiMod
 {
     public enum GhostState { Starting, Idle, Gift, Leaving}
-    public enum GhostGift { Life, Special, FlexPower, Pig, Perk}
+    public enum GhostGift { Life, Special, FlexPower, Pig, Perk, Pocketted}
     public class BronobiGhost : MonoBehaviour
     {
         const int spawnAnimEndCol = 7;
@@ -152,11 +152,39 @@ namespace BronobiMod
 
         void Gift()
         {
-            List<GhostGift> gifts = (GhostGift[])Enum.GetValues(typeof(GhostGift)).TOList
+            List<GhostGift> gifts = ((GhostGift[])Enum.GetValues(typeof(GhostGift))).ToList();
                 ;
             TestVanDammeAnim bro = HeroController.players[_giftedPlayer].character;
             if (bro.SpecialAmmo >= bro.originalSpecialAmmo)
-                gifts.remom
+                gifts.Remove(GhostGift.Special);
+            if (bro.player.HasFlexPower())
+                gifts.Remove(GhostGift.FlexPower);
+            if (bro.AsBroBase().pockettedSpecialAmmo.IsNotNullOrEmpty())
+                gifts.Remove(GhostGift.Pocketted);
+
+            int r = UnityEngine.Random.Range(0, gifts.Count);
+            GhostGift gift = gifts[r];
+            switch(gift)
+            {
+                case GhostGift.Life:
+                    bro.player.AddLife();
+                    break;
+                case GhostGift.Special:
+                    bro.AddSpecialAmmo(); break;
+                case GhostGift.Pig:
+                    // Spawn Pig
+                    break;
+                case GhostGift.FlexPower:
+                    // Give random FlexPower
+                    break;
+                case GhostGift.Pocketted:
+                    // Give random pocketted
+                    break;
+                case GhostGift.Perk:
+                    // give random perk
+                    break;
+            }
+
 
         }
 
