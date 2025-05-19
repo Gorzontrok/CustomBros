@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using RocketLib;
 using UnityEngine;
+using World.Generation.MapGenV4;
 
 namespace BronobiMod
 {
@@ -17,22 +18,25 @@ namespace BronobiMod
         public float Y;
 
         private GhostState state = GhostState.Starting;
-        private int row = 0;
+        private int row = 1;
         private int col = 1;
         private int spriteSize = 32;
-        private float fps = 1f;
+        private float fps = 0.085f;
         private float time;
-        private float giftRange = 10f;
+        private float giftRange = 30f;
 
         private int _giftedPlayer;
-
-        public static BronobiGhost CreateAGhost(Texture2D sprite, float X, float Y)
+        private List<GhostGift> _gifts;
+        public static BronobiGhost CreateAGhost(Texture2D sprite, float X, float Y, Material mat, int layer)
         {
-            GameObject gameObject = new GameObject("BronobiGhost", new Type[] { typeof(MeshRenderer), typeof(SpriteSM), typeof(BronobiGhost) });
-            BronobiGhost ghost = gameObject.GetComponent<BronobiGhost>();
+            GameObject gameObject = new GameObject("BronobiGhost", new Type[] { typeof(MeshRenderer) });
+            gameObject.transform.position = new Vector3(X, Y, 0);
+            gameObject.layer = layer;
+            gameObject.GetComponent<Renderer>().material = new Material(mat);
+            gameObject.GetComponent<Renderer>().material.SetTexture("_MainTex", sprite);
+            BronobiGhost ghost = gameObject.AddComponent<BronobiGhost>();
             ghost.Setup(X, Y);
-            ghost.Sprite.SetTexture(sprite);
-            ghost.Sprite.UpdateUVs();
+            //ghost.Sprite.SetTexture(sprite);
 
             return ghost;
         }
@@ -53,15 +57,20 @@ namespace BronobiMod
             {
                 // next frame
                 Animate();
+                time = fps;
             }
 
             if (state == GhostState.Idle)
             {
-                _giftedPlayer = HeroController.GetActualNearestPlayer(X, Y, giftRange, giftRange);
-                if (_giftedPlayer == -1)
+                int num = HeroController.GetActualNearestPlayer(X, Y, giftRange, giftRange);
+                if (num == -1)
                     return;
-                state = GhostState.Gift;
-                ForceAnimate();
+                if (DetermineGifts(num))
+                {
+                    _giftedPlayer = num;
+                    state = GhostState.Gift;
+                    ForceAnimate();
+                }
             }
 
 
@@ -75,8 +84,13 @@ namespace BronobiMod
 
         private void Awake()
         {
-            Sprite = gameObject.GetComponent<SpriteSM>();
             time = fps;
+
+            Sprite = gameObject.GetOrAddComponent<SpriteSM>();
+            Sprite.SetTextureDefaults();
+            Sprite.SetPixelDimensions(spriteSize, spriteSize);
+            Sprite.SetSize(spriteSize, spriteSize);
+            Sprite.SetLowerLeftPixel(0, spriteSize);
         }
 
         void ForceAnimate()
@@ -130,19 +144,12 @@ namespace BronobiMod
             // max frame 8
             // gift frame 6
             ++col;
+            if (col < 16)
+                col = 16;
             Sprite.SetLowerLeftPixel(col * spriteSize, row * spriteSize);
             if (col == 21)
             {
-                // Gift
-                int r = UnityEngine.Random.Range(0, 2);
-                switch(r)
-                {
-                    case 2:
-                        HeroController.AddLife(_giftedPlayer);
-                        break;
-                    default:
-                        HeroController.SetSpecialAmmo(_giftedPlayer, HeroController.players[_giftedPlayer].chara)
-                }
+                Gift();
             }
             if (col == 23)
             {
@@ -150,20 +157,35 @@ namespace BronobiMod
             }
         }
 
+        bool DetermineGifts(int playerNum)
+        {
+            _gifts = ((GhostGift[])Enum.GetValues(typeof(GhostGift))).ToList();
+            _gifts.Remove(GhostGift.Pig);
+            
+            TestVanDammeAnim bro = HeroController.players[playerNum].character;
+            if (bro.SpecialAmmo >= bro.originalSpecialAmmo)
+                _gifts.Remove(GhostGift.Special);
+            if (bro.player.HasFlexPower())
+                _gifts.Remove(GhostGift.FlexPower);
+            if (bro.AsBroBase().pockettedSpecialAmmo.IsNotNullOrEmpty())
+                _gifts.Remove(GhostGift.Pocketted);
+            if (bro.player.Lives > 4)
+                _gifts.Remove(GhostGift.Life);
+            if (!ProcGenGameMode.UseProcGenRules)
+                _gifts.Remove(GhostGift.Perk);
+
+            return _gifts.IsNotNullOrEmpty();
+        }
+
         void Gift()
         {
-            List<GhostGift> gifts = ((GhostGift[])Enum.GetValues(typeof(GhostGift))).ToList();
-                ;
+            if (_giftedPlayer == -1)
+                return;
+            if (_gifts.IsNullOrEmpty())
+                return;
             TestVanDammeAnim bro = HeroController.players[_giftedPlayer].character;
-            if (bro.SpecialAmmo >= bro.originalSpecialAmmo)
-                gifts.Remove(GhostGift.Special);
-            if (bro.player.HasFlexPower())
-                gifts.Remove(GhostGift.FlexPower);
-            if (bro.AsBroBase().pockettedSpecialAmmo.IsNotNullOrEmpty())
-                gifts.Remove(GhostGift.Pocketted);
-
-            int r = UnityEngine.Random.Range(0, gifts.Count);
-            GhostGift gift = gifts[r];
+            int r = UnityEngine.Random.Range(0, _gifts.Count);
+            GhostGift gift = _gifts[r];
             switch(gift)
             {
                 case GhostGift.Life:
@@ -173,19 +195,51 @@ namespace BronobiMod
                     bro.AddSpecialAmmo(); break;
                 case GhostGift.Pig:
                     // Spawn Pig
+                    MapController.SpawnTestVanDamme_Networked(Map.Instance.activeTheme.animals[0].GetComponent<TestVanDammeAnim>(), 
+                        X, Y, 0f, 0f, 
+                        tumble: false, useParachuteDelay: false, useParachute: false, onFire: false);
                     break;
                 case GhostGift.FlexPower:
                     // Give random FlexPower
+                    Pickupable pickup = PickupableController.CreateGoldenPrizePickupable(X, Y, PickupType.None);
+                    Registry.RegisterDeterminsiticGameObject(pickup.gameObject);
                     break;
                 case GhostGift.Pocketted:
                     // Give random pocketted
+                    Pickupable pickup2 = null;
+                    switch((PockettedSpecialAmmoType)UnityEngine.Random.Range(2,8))
+                    {
+                        case PockettedSpecialAmmoType.Timeslow:
+                            pickup2 = PickupableController.CreateTimeSlowAmmoBox(X, Y);
+                            pickup2.pickupType = PickupType.TimeSlow;
+                            break;
+                        case PockettedSpecialAmmoType.RemoteControlCar:
+                            pickup2 = PickupableController.CreateRCCarAmmoBox(X, Y);
+                            pickup2.pickupType = PickupType.RemotecontrolCar;
+                            break;
+                        case PockettedSpecialAmmoType.Airstrike:
+                            pickup2 = PickupableController.CreateAirstrikeAmmoBox(X, Y);
+                            pickup2.pickupType = PickupType.Airstrike;
+                            break;
+                        case PockettedSpecialAmmoType.MechDrop:
+                            pickup2 = PickupableController.CreateMechDropAmmoBox(X, Y);
+                            pickup2.pickupType = PickupType.MechDrop;
+                            break;
+                        case PockettedSpecialAmmoType.AlienPheromones:
+                            pickup2 = PickupableController.CreateAlienPheromonesAmmoBox(X, Y);
+                            pickup2.pickupType = PickupType.AlienPheromones;
+                            break;
+                        case PockettedSpecialAmmoType.Steroids:
+                        default:
+                            pickup2 = PickupableController.CreateSteroidsAmmoBox(X, Y);
+                            pickup2.pickupType = PickupType.Steroids;
+                            break;
+                    }
                     break;
                 case GhostGift.Perk:
                     // give random perk
                     break;
             }
-
-
         }
 
         void AnimateLeaving()

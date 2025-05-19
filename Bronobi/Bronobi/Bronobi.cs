@@ -11,6 +11,7 @@ namespace BronobiMod
     {
         public BronobiForceWave forceWave;
         public MindControlWave mindControlforceWave;
+        public BronobiGhost Ghost;
 
         protected Texture2D gunGrabSprite;
         protected Texture2D ghostSprite;
@@ -54,11 +55,11 @@ namespace BronobiMod
 
         public override void PreloadAssets()
         {
-            CustomHero.PreloadSounds(info.path, new System.Collections.Generic.List<string> {
+            /*    CustomHero.PreloadSounds(info.path, new System.Collections.Generic.List<string> {
                 "saber_swing_1.wav", "saber_swing_2.wav",
                 "saber_hit_0t.wav","saber_hit_1t.wav","saber_hit_2t.wav","saber_hit_3t.wav",
                 "saber_hit_bullet.wav"
-            });
+            });*/
         }
 
         protected override void Awake()
@@ -141,7 +142,18 @@ namespace BronobiMod
             UngrabMook();
             base.Death(xI, yI, damage);
             // Spawn Ghost
-            BronobiGhost.CreateAGhost(ghostSprite, X, Y);
+            if (Ghost != null)
+                return;
+            try
+            {
+                Ghost = BronobiGhost.CreateAGhost(ghostSprite, X, Y, Renderer.material, gameObject.layer);
+                Ghost.transform.parent = transform.parent;
+                Ghost.transform.localPosition = this.transform.localPosition;
+            }
+            catch(Exception ex)
+            {
+                BMLogger.ExceptionLog(ex);
+            }
         }
 
         #region Melee
