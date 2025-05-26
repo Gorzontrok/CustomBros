@@ -13,6 +13,10 @@ namespace BronobiMod
         public MindControlWave mindControlforceWave;
         public BronobiGhost Ghost;
 
+        protected Texture2D _waveTexture;
+        protected float _controlTime = 10f;
+
+
         protected Texture2D gunGrabSprite;
         protected Texture2D ghostSprite;
         protected Texture originalGunSprite;
@@ -53,14 +57,14 @@ namespace BronobiMod
             _grabbedMook = null;
         }
 
-        public override void PreloadAssets()
+       /* public override void PreloadAssets()
         {
-            /*    CustomHero.PreloadSounds(info.path, new System.Collections.Generic.List<string> {
+                CustomHero.PreloadSounds(info.path, new System.Collections.Generic.List<string> {
                 "saber_swing_1.wav", "saber_swing_2.wav",
                 "saber_hit_0t.wav","saber_hit_1t.wav","saber_hit_2t.wav","saber_hit_3t.wav",
                 "saber_hit_bullet.wav"
-            });*/
-        }
+            });
+        }*/
 
         protected override void Awake()
         {
@@ -218,6 +222,8 @@ namespace BronobiMod
                     break;
             }
         }
+        #endregion
+
         protected override void FireWeapon(float x, float y, float xSpeed, float ySpeed)
         {
             if (_grabbedMook)
@@ -228,20 +234,35 @@ namespace BronobiMod
             }
             base.FireWeapon(x, y, xSpeed, ySpeed);
         }
-
         protected override void UseSpecial()
         {
             if (_grabbedMook)
             {
-                MindControlEffect controlEffect = _grabbedMook.gameObject.AddComponent<MindControlEffect>();
-                controlEffect.Setup(this, _grabbedOriginalNum, _grabbedMookControlTime);
+                ControlMook(_grabbedMook, _grabbedOriginalNum);
                 UngrabMook(false);
                 return;
             }
-            base.UseSpecial();
+
+            if (SpecialAmmo > 0)
+            {
+                PlayThrowLightSound(0.4f);
+                SpecialAmmo--;
+                if (IsMine)
+                {
+                    TriggerBroSpecialEvent();
+                    mindControlforceWave = MindControlWave.CreateMindControleWave(this, _waveTexture, _controlTime);
+                }
+                pressSpecialFacingDirection = 0;
+                return;
+            }
+            HeroController.FlashSpecialAmmo(playerNum);
+            ActivateGun();
         }
-        #endregion
 
-
+        protected virtual void ControlMook(Mook mook, int mookNum)
+        {
+            MindControlEffect controlEffect = mook.gameObject.AddComponent<MindControlEffect>();
+            controlEffect.Setup(this, mookNum, _controlTime);
+        }
     }
 }

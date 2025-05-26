@@ -10,14 +10,18 @@
     }
   },
   "abilities": {
-    "BronobiMindControlWave": [ "UseSpecial" ]
+    //"BronobiMindControlWave": [ "UseSpecial" ]
   },
   "beforeAwake": {
     "_jumpForce": 300,
     "speed": 130,
     "fireRate": 0.2,
     "canChimneyFlip": true,
-    "gunGrabSprite": "Bronobi_gun_grab_anim.png"
+    "gunGrabSprite": "Bronobi_gun_grab_anim.png",
+    
+    "_waveTexture": "BronobiForceWave.png",
+    "_controlTime":  10
+
   },
   "afterAwake": {},
   "beforeStart": {},

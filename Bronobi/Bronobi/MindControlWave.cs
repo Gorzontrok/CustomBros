@@ -13,6 +13,26 @@ namespace BronobiMod
 
         protected float _controlTime = 2.0f;
 
+        public static MindControlWave CreateMindControleWave(TestVanDammeAnim owner, Texture2D waveTexture, float controlTime)
+        {
+            MindControlWave forceWave = new GameObject("MindControlWave").AddComponent<MindControlWave>();
+            forceWave.transform.position = owner.transform.position;
+            forceWave.Setup(waveTexture, controlTime);
+            DirectionEnum directionEnum = DirectionEnum.Any;
+            if (owner.right || owner.transform.localScale.x > 0f)
+            {
+                directionEnum = DirectionEnum.Right;
+            }
+            else if (owner.left || owner.transform.localScale.x < 0f)
+            {
+                directionEnum = DirectionEnum.Left;
+            }
+            // The visual are shit for some reason
+            forceWave.Setup(owner.playerNum, owner, directionEnum);
+
+            return forceWave;
+        }
+
         public static Puff GetForceWavePuff(Texture2D texture)
         {
             if (_forceWavePuff != null)

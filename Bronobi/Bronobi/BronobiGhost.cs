@@ -63,7 +63,7 @@ namespace BronobiMod
             if (state == GhostState.Idle)
             {
                 int num = HeroController.GetActualNearestPlayer(X, Y, giftRange, giftRange);
-                if (num == -1)
+                if (num == -1 || !HeroController.PlayerIsAlive(num))
                     return;
                 if (DetermineGifts(num))
                 {
@@ -161,7 +161,7 @@ namespace BronobiMod
         {
             _gifts = ((GhostGift[])Enum.GetValues(typeof(GhostGift))).ToList();
             _gifts.Remove(GhostGift.Pig);
-            
+
             TestVanDammeAnim bro = HeroController.players[playerNum].character;
             if (bro.SpecialAmmo >= bro.originalSpecialAmmo)
                 _gifts.Remove(GhostGift.Special);
@@ -195,8 +195,8 @@ namespace BronobiMod
                     bro.AddSpecialAmmo(); break;
                 case GhostGift.Pig:
                     // Spawn Pig
-                    MapController.SpawnTestVanDamme_Networked(Map.Instance.activeTheme.animals[0].GetComponent<TestVanDammeAnim>(), 
-                        X, Y, 0f, 0f, 
+                    MapController.SpawnTestVanDamme_Networked(Map.Instance.activeTheme.animals[0].GetComponent<TestVanDammeAnim>(),
+                        X, Y, 0f, 0f,
                         tumble: false, useParachuteDelay: false, useParachute: false, onFire: false);
                     break;
                 case GhostGift.FlexPower:
