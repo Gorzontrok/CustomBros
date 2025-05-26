@@ -13,7 +13,7 @@
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
-  <Import Project="LocalBroforcePath.props" Condition="Exists('LocalBroforcePath.props')" />
+  <Import Project="../../LocalBroforcePath.props" Condition="Exists('../../LocalBroforcePath.props')" />
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
@@ -33,10 +33,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="0Harmony">
-      <HintPath>..\..\..\_lib\0Harmony.dll</HintPath>
+      <HintPath>$(LibPath)\_lib\0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp">
-      <HintPath>..\..\..\_lib\Assembly-CSharp.dll</HintPath>
+      <HintPath>$(LibPath)\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="BroMakerLib">
       <HintPath>$(BroforcePath)\Mods\BroMaker\BroMakerLib.dll</HintPath>
@@ -53,18 +53,18 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine">
-      <HintPath>..\..\..\_lib\UnityEngine.dll</HintPath>
+      <HintPath>$(LibPath)\_lib\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AudioModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\_lib\UnityEngine.AudioModule.dll</HintPath>
+      <HintPath>$(LibPath)\_lib\UnityEngine.AudioModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>..\..\..\_lib\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>$(LibPath)\_lib\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\_lib\UnityEngine.PhysicsModule.dll</HintPath>
+      <HintPath>$(LibPath)\_lib\UnityEngine.PhysicsModule.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
