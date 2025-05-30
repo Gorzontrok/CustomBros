@@ -62,6 +62,10 @@
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>$(LibPath)\_lib\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.IMGUIModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\_lib\UnityEngine.IMGUIModule.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(LibPath)\_lib\UnityEngine.PhysicsModule.dll</HintPath>
@@ -74,6 +78,7 @@
     <Compile Include="BronobiForceWave.cs" />
     <Compile Include="Abilities\ForceWave.cs" />
     <Compile Include="BronobiGhost.cs" />
+    <Compile Include="Config.cs" />
     <Compile Include="MindControlEffect.cs" />
     <Compile Include="MindControlWave.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -86,6 +91,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>start XCOPY /Y /R "$(TargetPath)" "$(ProjectDir)\_Mod\$(ProjectName).dll*"
-start xcopy /Y /i "$(ProjectDir)_Mod\*.*" "$(BroforcePath)\BroMaker_Storage\$(ProjectName)\"</PostBuildEvent>
+start xcopy /Y /i "$(ProjectDir)_Mod\*.*" "$(BroforcePath)\BroMaker_Storage\$(ProjectName)\"
+del "$(BroforcePath)\BroMaker_Storage\$(ProjectName)\*.cache" 2&amp;gt; nul || set errorlevel=0</PostBuildEvent>
   </PropertyGroup>
 </Project>

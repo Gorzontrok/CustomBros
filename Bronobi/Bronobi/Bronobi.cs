@@ -20,12 +20,17 @@ namespace BronobiMod
         protected Texture2D gunGrabSprite;
         protected Texture2D ghostSprite;
         protected Texture originalGunSprite;
-        protected Vector2 grabDistance =  new Vector2(2, 2);
+        protected Vector2 grabDistance =  new Vector2(5, 2);
 
         protected Vector3 _grabOffset = new Vector3(1.5f, 0.10f, 0);
         protected Mook _grabbedMook;
         protected float _grabbedMookControlTime = 5f;
         protected int _grabbedOriginalNum;
+
+        protected Vector3 _ghostSpawnOffset = new Vector3(0, 16);
+
+        protected Vector2Int _specialAnimationPosition = new Vector2Int(0, 9);
+        protected float _specialAnimationRate = 0.0434f;
 
         public void SetupGrabedUnit(Mook mook)
         {
@@ -57,14 +62,19 @@ namespace BronobiMod
             _grabbedMook = null;
         }
 
-       /* public override void PreloadAssets()
+        /* public override void PreloadAssets()
+         {
+                 CustomHero.PreloadSounds(info.path, new System.Collections.Generic.List<string> {
+                 "saber_swing_1.wav", "saber_swing_2.wav",
+                 "saber_hit_0t.wav","saber_hit_1t.wav","saber_hit_2t.wav","saber_hit_3t.wav",
+                 "saber_hit_bullet.wav"
+             });
+         }*/
+
+        public override void UIOptions()
         {
-                CustomHero.PreloadSounds(info.path, new System.Collections.Generic.List<string> {
-                "saber_swing_1.wav", "saber_swing_2.wav",
-                "saber_hit_0t.wav","saber_hit_1t.wav","saber_hit_2t.wav","saber_hit_3t.wav",
-                "saber_hit_bullet.wav"
-            });
-        }*/
+            Config.UI();
+        }
 
         protected override void Awake()
         {
@@ -132,6 +142,8 @@ namespace BronobiMod
             _grabbedMook.xI = 0f;
             _grabbedMook.yI = 0f;
             _grabbedMook.Panic(true);
+            _grabbedMook.ForceFaceDirection(Direction);
+
         }
 
         protected override void SetupThrownMookVelocity(out float XI, out float YI)
@@ -152,7 +164,7 @@ namespace BronobiMod
             {
                 Ghost = BronobiGhost.CreateAGhost(ghostSprite, X, Y, Renderer.material, gameObject.layer);
                 Ghost.transform.parent = transform.parent;
-                Ghost.transform.localPosition = this.transform.localPosition;
+                Ghost.transform.localPosition = this.transform.localPosition + _ghostSpawnOffset;
             }
             catch(Exception ex)
             {
@@ -192,6 +204,7 @@ namespace BronobiMod
                 {
                     SetupGrabedUnit(moook);
                     gunSprite.SetTexture(gunGrabSprite);
+                    return;
                 }
             }
 
@@ -257,6 +270,38 @@ namespace BronobiMod
             }
             HeroController.FlashSpecialAmmo(playerNum);
             ActivateGun();
+        }
+
+        protected override void CalculateMovement()
+        {
+            if (usingSpecial && SpecialAmmo > 0)
+            {
+                xI = 0;
+                yI = 0;
+                return;
+            }
+            base.CalculateMovement();
+        }
+
+        protected override void AnimateSpecial()
+        {
+            SetSpriteOffset(0f, 0f);
+            DeactivateGun();
+            frameRate = _specialAnimationRate;
+            int row = _specialAnimationPosition.x + Mathf.Clamp(base.frame, 0, 8);
+            int col = _specialAnimationPosition.y;
+            sprite.SetLowerLeftPixel((float)(row * this.spritePixelWidth), (float)(this.spritePixelHeight * col));
+            if (frame == 6)
+            {
+                UseSpecial();
+            }
+            if (frame >= 8)
+            {
+                frame = 0;
+                usingSpecial = (usingPockettedSpecial = false);
+                ActivateGun();
+                ChangeFrame();
+            }
         }
 
         protected virtual void ControlMook(Mook mook, int mookNum)

@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using RocketLib;
+using RocketLib.Collections;
 using UnityEngine;
 using World.Generation.MapGenV4;
 
 namespace BronobiMod
 {
     public enum GhostState { Starting, Idle, Gift, Leaving}
-    public enum GhostGift { Life, Special, FlexPower, Pig, Perk, Pocketted}
+    public enum GhostGift { Life, Special, FlexPower, Pig, Perk, Pocketted, Drone}
     public class BronobiGhost : MonoBehaviour
     {
         const int spawnAnimEndCol = 7;
@@ -157,24 +158,49 @@ namespace BronobiMod
             }
         }
 
+        protected int _nextBroRevive = -1;
         bool DetermineGifts(int playerNum)
         {
-            _gifts = ((GhostGift[])Enum.GetValues(typeof(GhostGift))).ToList();
-            _gifts.Remove(GhostGift.Pig);
+            _gifts = new List<GhostGift>();
 
             TestVanDammeAnim bro = HeroController.players[playerNum].character;
-            if (bro.SpecialAmmo >= bro.originalSpecialAmmo)
-                _gifts.Remove(GhostGift.Special);
-            if (bro.player.HasFlexPower())
-                _gifts.Remove(GhostGift.FlexPower);
-            if (bro.AsBroBase().pockettedSpecialAmmo.IsNotNullOrEmpty())
-                _gifts.Remove(GhostGift.Pocketted);
-            if (bro.player.Lives > 4)
-                _gifts.Remove(GhostGift.Life);
-            if (!ProcGenGameMode.UseProcGenRules)
-                _gifts.Remove(GhostGift.Perk);
+            if (Config.refillAmmos && bro.SpecialAmmo < bro.originalSpecialAmmo)
+                _gifts.Add(GhostGift.Special);
+            if (Config.giveFlexPower && !bro.player.HasFlexPower())
+                _gifts.Add(GhostGift.FlexPower);
+            if (Config.givePockettedAmmo && bro.AsBroBase().pockettedSpecialAmmo.IsNullOrEmpty())
+                _gifts.Add(GhostGift.Pocketted);
+            if (Config.addLife && (/*(_nextBroRevive = GetFirstPlayerDead()) != -1 ||*/ bro.player.Lives < 4))
+                _gifts.Add(GhostGift.Life);
+            if (Config.useProcGen && ProcGenGameMode.UseProcGenRules)
+                _gifts.Add(GhostGift.Perk);
+            if (Config.spawnPig && UnityEngine.Random.value > 0.8f)
+                _gifts.Add(GhostGift.Pig);
+            /*if (Config.spawnDrone)
+                _gifts.Add(GhostGift.Drone);*/
 
             return _gifts.IsNotNullOrEmpty();
+        }
+
+        int GetFirstPlayerDead()
+        {
+            if (HeroController.GetPlayersAliveCount() < 1)
+                return -1;
+            if (HeroController.Instance.playerDeathOrder.IsNullOrEmpty())
+                return -1;
+            int res = -1;
+
+            while (HeroController.Instance.playerDeathOrder.Count != 0)
+            {
+                int num = HeroController.Instance.playerDeathOrder[0];
+                HeroController.Instance.playerDeathOrder.RemoveAt(0);
+                if (HeroController.players[num] != null && HeroController.IsPlayerPlaying(num) && !HeroController.players[num].IsAlive())
+                {
+                    res = num;
+                    break;
+                }
+            }
+            return res;
         }
 
         void Gift()
@@ -183,6 +209,10 @@ namespace BronobiMod
                 return;
             if (_gifts.IsNullOrEmpty())
                 return;
+          /*  if (_nextBroRevive != -1 && HeroController.players[_nextBroRevive].character != null)
+            {
+                HeroController.players[_nextBroRevive].character.SetWillComebackToLife(0);
+            }*/
             TestVanDammeAnim bro = HeroController.players[_giftedPlayer].character;
             int r = UnityEngine.Random.Range(0, _gifts.Count);
             GhostGift gift = _gifts[r];
@@ -203,6 +233,8 @@ namespace BronobiMod
                     // Give random FlexPower
                     Pickupable pickup = PickupableController.CreateGoldenPrizePickupable(X, Y, PickupType.None);
                     Registry.RegisterDeterminsiticGameObject(pickup.gameObject);
+                    pickup.Launch(X, Y, 0, 0);
+                    EffectsController.CreatePuffDisappearRingEffect(X, Y, 0f, 0f);
                     break;
                 case GhostGift.Pocketted:
                     // Give random pocketted
@@ -235,9 +267,14 @@ namespace BronobiMod
                             pickup2.pickupType = PickupType.Steroids;
                             break;
                     }
+                    pickup2.Launch(X, Y, 0, 100);
+                    EffectsController.CreatePuffDisappearRingEffect(X, Y, 0f, 0f);
                     break;
                 case GhostGift.Perk:
                     // give random perk
+                    break;
+                case GhostGift.Drone:
+                    bro.CallMethod("SpawnDrone");
                     break;
             }
         }
