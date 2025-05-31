@@ -4,6 +4,8 @@
   "parameters": {
     "BetterAnimation": true,
     "Avatar": "avatar_Bronobi.png",
+    "SpecialIcons": "Bronobi_ammo.png",
+    "SpecialIconSpacing": 6,
     "GunSpriteOffset": {
       "x": 4,
       "y": -1
@@ -18,7 +20,7 @@
     "fireRate": 0.2,
     "canChimneyFlip": true,
     "gunGrabSprite": "Bronobi_gun_grab_anim.png",
-    
+
     "_waveTexture": "BronobiForceWave.png",
     "_controlTime":  10
 
