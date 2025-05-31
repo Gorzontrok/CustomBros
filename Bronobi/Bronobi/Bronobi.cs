@@ -55,7 +55,7 @@ namespace BronobiMod
                 return;
 
            // _grabbedMook.transform.parent = null;
-            if (setPlayernum)
+            if (setPlayernum && (_grabbedMook.NotAs<MookArmouredGuy>() || _grabbedMook.As<MookArmouredGuy>().pilotUnit.NotAs<BroBase>()))
             {
                 _grabbedMook.playerNum = _grabbedOriginalNum;
                 _grabbedMook.firingPlayerNum = _grabbedOriginalNum;
@@ -172,14 +172,12 @@ namespace BronobiMod
         }
 
         #region Melee
-        protected override void StartMelee()
+        protected override void PressHighFiveMelee(bool forceHighFive = false)
         {
             if (_grabbedMook != null)
             {
-                if (!_grabbedBoss)
+                if (!_grabbedBoss && (_grabbedMook.NotAs<MookArmouredGuy>() || _grabbedMook.As<MookArmouredGuy>().pilotUnit.NotAs<BroBase>()))
                 {
-                    //ThrowBackMook(_grabbedMook);
-
                     SetupThrownMookVelocity(out float xI, out float yI);
                     _grabbedMook.isBeingThrown = true;
                     _grabbedMook.xI = xI;
@@ -194,7 +192,10 @@ namespace BronobiMod
                 UngrabMook();
                 return;
             }
-
+            base.PressHighFiveMelee(forceHighFive);
+        }
+        protected override void StartMelee()
+        {
             base.counter = 0f;
             this.currentMeleeType = this.meleeType;
             RaycastHit raycastHit;
@@ -205,7 +206,7 @@ namespace BronobiMod
             else
             {
                 Mook moook = Map.GetNearbyMook(grabDistance.x * Map.TileSize, grabDistance.y * Map.TileSize, X, Y, Direction, false);
-                if (moook != null)
+                if (moook != null && moook.playerNum < 0)
                 {
                     SetupGrabedUnit(moook);
                     gunSprite.SetTexture(gunGrabSprite);
@@ -252,7 +253,7 @@ namespace BronobiMod
         {
             if (_grabbedMook)
             {
-                if (!_grabbedBoss)
+                if (!_grabbedBoss && (_grabbedMook.NotAs<MookArmouredGuy>() || _grabbedMook.As<MookArmouredGuy>().pilotUnit.NotAs<BroBase>()))
                     _grabbedMook.Gib();
                 UngrabMook();
                 return;
@@ -263,7 +264,7 @@ namespace BronobiMod
         {
             if (_grabbedMook)
             {
-                if (!_grabbedMook.As<Satan>() && !_grabbedBoss)
+                if (!_grabbedMook.As<Satan>() && !_grabbedBoss && (_grabbedMook.NotAs<MookArmouredGuy>() || _grabbedMook.As<MookArmouredGuy>().pilotUnit.NotAs<BroBase>()))
                 {
                     ControlMook(_grabbedMook, _grabbedOriginalNum);
                 }
