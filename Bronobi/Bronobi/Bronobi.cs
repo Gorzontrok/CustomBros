@@ -56,7 +56,10 @@ namespace BronobiMod
 
            // _grabbedMook.transform.parent = null;
             if (setPlayernum)
+            {
                 _grabbedMook.playerNum = _grabbedOriginalNum;
+                _grabbedMook.firingPlayerNum = _grabbedOriginalNum;
+            }
 
             gunSprite.SetTexture(originalGunSprite);
             _grabbedMook = null;
