@@ -111,10 +111,10 @@ namespace BronobiMod
         protected override void TryAssassinateUnits(float x, float y, int xRange, int yRange, int playerNum)
         {
             Mook closestMook = Map.GetNearbyMook((float)xRange, (float)yRange, x, y, (forceDirection == DirectionEnum.Left ? -1 : 1), false);
-            if (closestMook != null)
+            if (closestMook != null && !closestMook.Is<Satan>())
             {
                 MindControlEffect controlEffect = closestMook.gameObject.AddComponent<MindControlEffect>();
-                controlEffect.Setup(Character, closestMook.playerNum, _controlTime);
+                controlEffect.Setup(Character, closestMook.playerNum, BroMakerLib.BroMakerUtilities.IsBoss(closestMook) ? _controlTime / 4 : _controlTime);
             }
         }
     }

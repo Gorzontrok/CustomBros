@@ -11,26 +11,26 @@ namespace BronobiMod
     {
         public BronobiForceWave forceWave;
         public MindControlWave mindControlforceWave;
-        public BronobiGhost Ghost;
-
         protected Texture2D _waveTexture;
         protected float _controlTime = 10f;
 
-
-        protected Texture2D gunGrabSprite;
+        public BronobiGhost Ghost;
         protected Texture2D ghostSprite;
-        protected Texture originalGunSprite;
-        protected Vector2 grabDistance =  new Vector2(5, 2);
+        protected Vector3 _ghostSpawnOffset = new Vector3(0, 16);
 
+        protected Texture originalGunSprite;
+        protected Texture2D gunGrabSprite;
+        protected Vector2 grabDistance =  new Vector2(5, 2);
         protected Vector3 _grabOffset = new Vector3(1.5f, 0.10f, 0);
         protected Mook _grabbedMook;
         protected float _grabbedMookControlTime = 5f;
         protected int _grabbedOriginalNum;
-
-        protected Vector3 _ghostSpawnOffset = new Vector3(0, 16);
+        protected float _grabBossTime = 1f;
+        protected bool _grabbedBoss = false;
 
         protected Vector2Int _specialAnimationPosition = new Vector2Int(0, 9);
         protected float _specialAnimationRate = 0.0434f;
+
 
         public void SetupGrabedUnit(Mook mook)
         {
@@ -60,16 +60,9 @@ namespace BronobiMod
 
             gunSprite.SetTexture(originalGunSprite);
             _grabbedMook = null;
-        }
 
-        /* public override void PreloadAssets()
-         {
-                 CustomHero.PreloadSounds(info.path, new System.Collections.Generic.List<string> {
-                 "saber_swing_1.wav", "saber_swing_2.wav",
-                 "saber_hit_0t.wav","saber_hit_1t.wav","saber_hit_2t.wav","saber_hit_3t.wav",
-                 "saber_hit_bullet.wav"
-             });
-         }*/
+            _grabbedBoss = false;
+        }
 
         public override void UIOptions()
         {
@@ -127,6 +120,11 @@ namespace BronobiMod
             if (!_grabbedMook.IsAlive())
             {
                 UngrabMook();
+            }
+
+            if (_grabbedBoss && (_grabBossTime -= Time.deltaTime) < 0)
+            {
+                UngrabMook();
                 return;
             }
 
@@ -141,9 +139,7 @@ namespace BronobiMod
             _grabbedMook.Y = this.Y + _grabOffset.y * Map.TileSize;
             _grabbedMook.xI = 0f;
             _grabbedMook.yI = 0f;
-            _grabbedMook.Panic(true);
             _grabbedMook.ForceFaceDirection(Direction);
-
         }
 
         protected override void SetupThrownMookVelocity(out float XI, out float YI)
@@ -177,15 +173,21 @@ namespace BronobiMod
         {
             if (_grabbedMook != null)
             {
-                SetupThrownMookVelocity(out float xI, out float yI);
-                _grabbedMook.xI = xI;
-                _grabbedMook.yI = yI;
-                _grabbedMook.SetBackFlyingFrame(xI, yI);
-                _grabbedMook.transform.parent = base.transform.parent;
-                _grabbedMook.Reenable();
-                _grabbedMook.StartFallingScream();
-                _grabbedMook.EvaluateIsJumping();
-                _grabbedMook.ThrowMook(false, playerNum);
+                if (!_grabbedBoss)
+                {
+                    //ThrowBackMook(_grabbedMook);
+
+                    SetupThrownMookVelocity(out float xI, out float yI);
+                    _grabbedMook.isBeingThrown = true;
+                    _grabbedMook.xI = xI;
+                    _grabbedMook.yI = yI;
+                    _grabbedMook.SetBackFlyingFrame(xI, yI);
+                    _grabbedMook.transform.parent = base.transform.parent;
+                    _grabbedMook.Reenable();
+                    _grabbedMook.StartFallingScream();
+                    _grabbedMook.EvaluateIsJumping();
+                    _grabbedMook.ThrowMook(false, playerNum);
+                }
                 UngrabMook();
                 return;
             }
@@ -204,6 +206,12 @@ namespace BronobiMod
                 {
                     SetupGrabedUnit(moook);
                     gunSprite.SetTexture(gunGrabSprite);
+                    if (BroMakerUtilities.IsBoss(moook))
+                    {
+                        _grabbedBoss = true;
+                        _grabBossTime = 1f;
+                    }
+
                     return;
                 }
             }
@@ -231,7 +239,7 @@ namespace BronobiMod
                 case BroBase.MeleeType.HeadButt:
                 case BroBase.MeleeType.TeleportStab:
                     this.StartCustomMelee();
-                    base.ActivateGun();
+                    //base.ActivateGun();
                     break;
             }
         }
@@ -241,7 +249,8 @@ namespace BronobiMod
         {
             if (_grabbedMook)
             {
-                _grabbedMook.Gib();
+                if (!_grabbedBoss)
+                    _grabbedMook.Gib();
                 UngrabMook();
                 return;
             }
@@ -251,7 +260,10 @@ namespace BronobiMod
         {
             if (_grabbedMook)
             {
-                ControlMook(_grabbedMook, _grabbedOriginalNum);
+                if (!_grabbedMook.As<Satan>() && !_grabbedBoss)
+                {
+                    ControlMook(_grabbedMook, _grabbedOriginalNum);
+                }
                 UngrabMook(false);
                 return;
             }

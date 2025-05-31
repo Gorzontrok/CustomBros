@@ -1,7 +1,6 @@
 ﻿using BroMakerLib;
 using BroMakerLib.CustomObjects.Bros;
 using BroMakerLib.Loggers;
-using HarmonyLib;
 using System;
 using UnityEngine;
 
@@ -12,21 +11,23 @@ namespace BronobiMod
         public Mook mook { get; protected set; }
 
         public TestVanDammeAnim MindController {  get; protected set; }
+        protected int _originalPlayerNum;
+
 
         public float timeBetwenEffects = 1f;
         protected float _counter;
-        protected int _originalPlayerNum;
         protected float _controlTime;
 
         protected Color _starColor = Color.cyan;
-
         protected static Texture2D[] _blindStars = null;
+
+        protected Unit _nearestEnemy = null;
+        protected int _rangeEnemySearch = 300;
 
         protected void Awake()
         {
             mook = GetComponent<Mook>();
         }
-
 
         protected void Update()
         {
@@ -44,6 +45,24 @@ namespace BronobiMod
                 RunEffect();
                 _counter = timeBetwenEffects;
             }
+
+            if (_nearestEnemy == null || !_nearestEnemy.IsAlive())
+            {
+                if (_nearestEnemy != null && !_nearestEnemy.IsAlive())
+                {
+                    mook.enemyAI.ClearActionQueue(true);
+                    mook.enemyAI.AddAction(EnemyActionType.Laugh, 1f);
+                }
+
+                _nearestEnemy = Map.GetNearestUnit(RocketLib.Collections.Nums.TERRORIST, _rangeEnemySearch, mook.X, mook.Y, false);
+                if (_nearestEnemy == null)
+                    _nearestEnemy = Map.GetNearestUnit(RocketLib.Collections.Nums.ALIENS, _rangeEnemySearch, mook.X, mook.Y, false);
+                if (_nearestEnemy != null)
+                {
+                    mook.enemyAI.AddAction(EnemyActionType.FollowPath, new GridPoint(_nearestEnemy.collumn + (UnityEngine.Random.value > 0.5f ? 2 : -2), _nearestEnemy.row));
+                    mook.enemyAI.AddAction(EnemyActionType.Fire, 5f);
+                }
+            }
         }
 
         public void Setup(TestVanDammeAnim mindController, int originalPlayerNum, float controlTime)
@@ -52,8 +71,8 @@ namespace BronobiMod
             _originalPlayerNum = originalPlayerNum;
 
             mook.GetComponent<PolymorphicAI>().TryLooseSightOfPlayer(mindController.playerNum);
-            mook.playerNum = -10;
-            mook.firingPlayerNum = mindController.playerNum;
+            mook.playerNum = 10;
+            mook.firingPlayerNum = 10;
 
             _controlTime = controlTime;
 
@@ -76,25 +95,11 @@ namespace BronobiMod
 
         protected virtual void RunEffect()
         {
-            try
-            {
-                PuffTwoLayer puff2layer = CreateBlindStar(mook.X + UnityEngine.Random.value * 2f - 1f, mook.Y + 6f + mook.height * 1.4f,
-                    2f, 2f, 1f,
-                    0f, 20f, mook.transform);
+            PuffTwoLayer puff2layer = CreateBlindStar(mook.X + UnityEngine.Random.value * 2f - 1f, mook.Y + 6f + mook.height * 1.4f,
+                2f, 2f, 1f,
+                0f, 20f, mook.transform);
 
-                puff2layer.SetColor(_starColor);
-
-               /* Puff puff = EffectsController.CreateEffect(EffectsController.instance.revivedZombiePassivePrefab, mook.X, mook.Y, mook.transform.position.z, 0f, Vector3.zero);
-                if (puff != null)
-                {
-                    puff.SetColor(Color.white);
-                    puff.transform.parent = transform;
-                }*/
-            }
-            catch (Exception e)
-            {
-                BMLogger.ExceptionLog(e);
-            }
+            puff2layer.SetColor(_starColor);
         }
 
         protected PuffTwoLayer CreateBlindStar(float x, float y, float radius, float force, float count, float xI, float yI, Transform unitTransform)
@@ -125,7 +130,7 @@ namespace BronobiMod
                     puffTwoLayer = EffectsController.instance.stunnedStars3Prefab;
                 }
 
-                puffTwoLayer2 = EffectsController.CreateEffect(puffTwoLayer, x, y, 0f, new Vector3(xI, yI, 0f), BloodColor.None);
+                puffTwoLayer2 = CreatePuffTwoLayer(puffTwoLayer, x, y, 0f, new Vector3(xI, yI, 0f));
                 if (puffTwoLayer2 != null)
                 {
                     puffTwoLayer2.transform.parent = unitTransform;
@@ -140,30 +145,26 @@ namespace BronobiMod
             return puffTwoLayer2;
         }
 
+        PuffTwoLayer CreatePuffTwoLayer(PuffTwoLayer puffTwoLayer, float x, float y,float delay, Vector3 velocity)
+        {
+            PuffTwoLayer puff = UnityEngine.Object.Instantiate(puffTwoLayer, new Vector3(x, y, 0), Quaternion.identity);
+            if (velocity != Vector3.zero)
+            {
+                velocity.z = 0f;
+                puff.SetVelocity(velocity);
+            }
+            if (delay > 0f)
+            {
+                puff.Delay(delay);
+            }
+            return puff;
+        }
+
         public void StopControl()
         {
             mook.playerNum = _originalPlayerNum;
             mook.firingPlayerNum = _originalPlayerNum;
             mook.SetFieldValue("catchFriendlyBullets", false);
-        }
-
-        public void CreateBlueStars()
-        {
-            // voit les sfx plus tard, fait le gameplay d'abord
-        }
-    }
-
-    [HarmonyPatch(typeof(Mook), "CatchFriendlyBullets")]
-    static class CatchFriendlyBullets_Patch
-    {
-        static bool Prefix(Mook __instance, ref bool __result)
-        {
-            if (__instance.GetComponent<MindControlEffect>())
-            {
-                __result = true;
-                return false;
-            }
-            return true;
         }
     }
 }

@@ -24,10 +24,11 @@ namespace BronobiMod
         private int spriteSize = 32;
         private float fps = 0.085f;
         private float time;
-        private float giftRange = 30f;
 
+        private float giftRange = 30f;
         private int _giftedPlayer;
         private List<GhostGift> _gifts;
+
         public static BronobiGhost CreateAGhost(Texture2D sprite, float X, float Y, Material mat, int layer)
         {
             GameObject gameObject = new GameObject("BronobiGhost", new Type[] { typeof(MeshRenderer) });
@@ -37,7 +38,6 @@ namespace BronobiMod
             gameObject.GetComponent<Renderer>().material.SetTexture("_MainTex", sprite);
             BronobiGhost ghost = gameObject.AddComponent<BronobiGhost>();
             ghost.Setup(X, Y);
-            //ghost.Sprite.SetTexture(sprite);
 
             return ghost;
         }
@@ -73,14 +73,6 @@ namespace BronobiMod
                     ForceAnimate();
                 }
             }
-
-
-            // Sin animation
-            /*
-            Vector3 pos = transform.localPosition;
-            pos.y = Mathf.Sin(Time.deltaTime) + Y;
-            transform.localPosition = pos;
-            //*/
         }
 
         private void Awake()
@@ -176,8 +168,8 @@ namespace BronobiMod
                 _gifts.Add(GhostGift.Perk);
             if (Config.spawnPig && UnityEngine.Random.value > 0.8f)
                 _gifts.Add(GhostGift.Pig);
-            /*if (Config.spawnDrone)
-                _gifts.Add(GhostGift.Drone);*/
+            if (Config.spawnDrone)
+                _gifts.Add(GhostGift.Drone);
 
             return _gifts.IsNotNullOrEmpty();
         }
