@@ -47,6 +47,11 @@ namespace BronobiMod
             _grabbedMook.Y = this.Y + _grabOffset.y;
             _grabbedMook.xI = 0f;
             _grabbedMook.yI = 0f;
+
+            if (_grabbedMook as AlienClimber)
+            {
+                _grabbedMook.As<AlienClimber>().ForceClimbing(false, false, false);
+            }
             //_grabbedMook.Panic(true);
         }
 
