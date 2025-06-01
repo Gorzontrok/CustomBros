@@ -20,9 +20,10 @@
     "fireRate": 0.2,
     "canChimneyFlip": true,
     "gunGrabSprite": "Bronobi_gun_grab_anim.png",
+    "originalSpecialAmmo": 2,
 
     "_waveTexture": "BronobiForceWave.png",
-    "_controlTime":  10
+    "_controlTime": 10
 
   },
   "afterAwake": {},

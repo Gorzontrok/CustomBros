@@ -31,6 +31,7 @@ namespace BronobiMod
         protected Vector2Int _specialAnimationPosition = new Vector2Int(0, 9);
         protected float _specialAnimationRate = 0.0434f;
 
+        protected AudioClip _forcePush;
 
         public void SetupGrabedUnit(Mook mook)
         {
@@ -69,6 +70,7 @@ namespace BronobiMod
 
         public override void UIOptions()
         {
+
             Config.UI();
         }
 
@@ -100,6 +102,13 @@ namespace BronobiMod
                 {
                     ResourcesController.GetAudioClip(info.path, "saber_hit_bullet.wav")
                 };
+                soundHolder.specialAttackSounds = new AudioClip[]
+                {
+                    ResourcesController.GetAudioClip(info.path, "force_1.wav"),
+                    ResourcesController.GetAudioClip(info.path, "force_2.wav"),
+                    ResourcesController.GetAudioClip(info.path, "force_3.wav")
+                };
+                _forcePush = ResourcesController.GetAudioClip(info.path, "force_push.wav");
             }
             catch(Exception ex)
             {
@@ -188,6 +197,7 @@ namespace BronobiMod
                     _grabbedMook.StartFallingScream();
                     _grabbedMook.EvaluateIsJumping();
                     _grabbedMook.ThrowMook(false, playerNum);
+                    sound.PlayAudioClip(_forcePush, XY, 0.7f);
                 }
                 UngrabMook();
                 return;
@@ -276,7 +286,7 @@ namespace BronobiMod
 
             if (SpecialAmmo > 0)
             {
-                PlayThrowLightSound(0.4f);
+                PlaySpecialAttackSound(0.8f);
                 SpecialAmmo--;
                 if (IsMine)
                 {
