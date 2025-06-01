@@ -46,7 +46,7 @@ namespace BronobiMod
             _grabbedMook.Y = this.Y + _grabOffset.y;
             _grabbedMook.xI = 0f;
             _grabbedMook.yI = 0f;
-            _grabbedMook.Panic(true);
+            //_grabbedMook.Panic(true);
         }
 
         public void UngrabMook(bool setPlayernum = true)
@@ -267,8 +267,10 @@ namespace BronobiMod
                 if (!_grabbedMook.As<Satan>() && !_grabbedBoss && (_grabbedMook.NotAs<MookArmouredGuy>() || _grabbedMook.As<MookArmouredGuy>().pilotUnit.NotAs<BroBase>()))
                 {
                     ControlMook(_grabbedMook, _grabbedOriginalNum);
+                    UngrabMook(false);
                 }
-                UngrabMook(false);
+                else
+                    UngrabMook(true);
                 return;
             }
 
