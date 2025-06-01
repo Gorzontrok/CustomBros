@@ -53,14 +53,27 @@ namespace BronobiMod
                     mook.enemyAI.ClearActionQueue(true);
                     mook.enemyAI.AddAction(EnemyActionType.Laugh, 1f);
                 }
+                if (mook.enemyAI.CallMethod<bool>("CanSeeEnemyThisWay", mook.Direction))
+                {
+                    mook.enemyAI.AddAction(EnemyActionType.Fire, 1f);
+                    return;
+                }
+                if (mook.enemyAI.CallMethod<bool>("CanSeeEnemyThisWay", -mook.Direction))
+                {
+                    mook.ForceFaceDirection(-mook.Direction);
+                    mook.enemyAI.AddAction(EnemyActionType.Fire, 1f);
+                    return ;
+                }
 
                 _nearestEnemy = Map.GetNearestUnit(RocketLib.Collections.Nums.TERRORIST, _rangeEnemySearch, mook.X, mook.Y, false);
                 if (_nearestEnemy == null)
                     _nearestEnemy = Map.GetNearestUnit(RocketLib.Collections.Nums.ALIENS, _rangeEnemySearch, mook.X, mook.Y, false);
                 if (_nearestEnemy != null)
                 {
+                    mook.enemyAI.SetMentalState(MentalState.Alerted);
                     mook.enemyAI.AddAction(EnemyActionType.FollowPath, new GridPoint(_nearestEnemy.collumn + (UnityEngine.Random.value > 0.5f ? 2 : -2), _nearestEnemy.row));
-                    mook.enemyAI.AddAction(EnemyActionType.Fire, 5f);
+                   // mook.enemyAI.AddAction(EnemyActionType.FacePoint, new GridPoint(_nearestEnemy.collumn, _nearestEnemy.row));
+                    mook.enemyAI.AddAction(EnemyActionType.Fire, mook.enemyAI.attackTime);
                 }
             }
         }
@@ -70,9 +83,10 @@ namespace BronobiMod
             MindController = mindController;
             _originalPlayerNum = originalPlayerNum;
 
-            mook.GetComponent<PolymorphicAI>().TryLooseSightOfPlayer(mindController.playerNum);
             mook.playerNum = 10;
             mook.firingPlayerNum = 10;
+            mook.enemyAI.ClearActionQueue(true);
+            mook.enemyAI.SetMentalState(MentalState.Idle);
 
             _controlTime = controlTime;
 
@@ -164,6 +178,9 @@ namespace BronobiMod
         {
             mook.playerNum = _originalPlayerNum;
             mook.firingPlayerNum = _originalPlayerNum;
+            mook.enemyAI.ClearActionQueue(true);
+            mook.enemyAI.AddAction(EnemyActionType.BecomeIdle, 0.2f);
+            mook.enemyAI.AddAction(EnemyActionType.QuestionMark, 1f);
             mook.SetFieldValue("catchFriendlyBullets", false);
         }
     }
