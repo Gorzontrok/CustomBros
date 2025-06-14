@@ -221,7 +221,7 @@ namespace BronobiMod
             else
             {
                 Mook moook = Map.GetNearbyMook(grabDistance.x * Map.TileSize, grabDistance.y * Map.TileSize, X, Y, Direction, false);
-                if (moook != null && moook.playerNum < 0)
+                if (moook != null && moook.gameObject.activeSelf && moook.playerNum < 0)
                 {
                     SetupGrabedUnit(moook);
                     gunSprite.SetTexture(gunGrabSprite);
