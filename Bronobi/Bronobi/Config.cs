@@ -18,7 +18,7 @@ namespace BronobiMod
         public static void UI()
         {
             GUILayout.Label("Bronobi Ghost Gifts:");
-            GUILayout.Label("--Some options may need additionals check--");
+            GUILayout.Label("-- Some options may need additionals conditions --");
             GUILayout.BeginHorizontal(GUILayout.ExpandWidth(false));
             addLife = GUILayout.Toggle(addLife, new GUIContent("Add Life"));
             refillAmmos = GUILayout.Toggle(refillAmmos, new GUIContent("Refill Special"));

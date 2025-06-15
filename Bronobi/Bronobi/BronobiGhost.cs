@@ -166,7 +166,7 @@ namespace BronobiMod
                 _gifts.Add(GhostGift.Life);
             if (Config.useProcGen && ProcGenGameMode.UseProcGenRules)
                 _gifts.Add(GhostGift.Perk);
-            if (Config.spawnPig && UnityEngine.Random.value > 0.8f)
+            if (Config.spawnPig && UnityEngine.Random.value > 0.2f)
                 _gifts.Add(GhostGift.Pig);
             if (Config.spawnDrone)
                 _gifts.Add(GhostGift.Drone);
