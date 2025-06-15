@@ -53,12 +53,13 @@ namespace BronobiMod
                     mook.enemyAI.ClearActionQueue(true);
                     mook.enemyAI.AddAction(EnemyActionType.Laugh, 1f);
                 }
-                if (mook.enemyAI.CallMethod<bool>("CanSeeEnemyThisWay", mook.Direction))
+
+                if (mook.NotAs<MookSuicide>() && mook.NotAs<MookSuicideUndead>() && mook.enemyAI.CallMethod<bool>("CanSeeEnemyThisWay", mook.Direction))
                 {
                     mook.enemyAI.AddAction(EnemyActionType.Fire, 1f);
                     return;
                 }
-                if (mook.enemyAI.CallMethod<bool>("CanSeeEnemyThisWay", -mook.Direction))
+                else if (mook.NotAs<MookSuicide>() && mook.NotAs<MookSuicideUndead>() && mook.enemyAI.CallMethod<bool>("CanSeeEnemyThisWay", -mook.Direction))
                 {
                     mook.ForceFaceDirection(-mook.Direction);
                     mook.enemyAI.AddAction(EnemyActionType.Fire, 1f);
