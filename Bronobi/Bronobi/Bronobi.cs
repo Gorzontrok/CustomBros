@@ -85,7 +85,7 @@ namespace BronobiMod
             base.Awake();
 
             ghostSprite = ResourcesController.GetTexture(info.path, "Bronobi_Ghost_anim.png");
-
+            soundHolder = 
             try
             {
                 // Load audios
