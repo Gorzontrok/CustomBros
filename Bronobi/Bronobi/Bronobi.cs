@@ -84,36 +84,35 @@ namespace BronobiMod
             meleeType = MeleeType.Custom;
             base.Awake();
 
-            ghostSprite = ResourcesController.GetTexture(info.path, "Bronobi_Ghost_anim.png");
-            soundHolder = 
+            ghostSprite = ResourcesController.GetTexture(Info.path, "Bronobi_Ghost_anim.png");
             try
             {
                 // Load audios
                 soundHolder.attackSounds = new AudioClip[]
                 {
-                    ResourcesController.GetAudioClip(info.path, "saber_swing_1.wav"),
-                    ResourcesController.GetAudioClip(info.path, "saber_swing_2.wav")
+                    ResourcesController.GetAudioClip(Info.path, "saber_swing_1.wav"),
+                    ResourcesController.GetAudioClip(Info.path, "saber_swing_2.wav")
                 };
                 soundHolder.hitSounds = new AudioClip[]
                 {
-                    ResourcesController.GetAudioClip(info.path, "saber_hit_0t.wav"),
-                    ResourcesController.GetAudioClip(info.path, "saber_hit_1t.wav"),
-                    ResourcesController.GetAudioClip(info.path, "saber_hit_2t.wav"),
-                    ResourcesController.GetAudioClip(info.path, "saber_hit_3t.wav")
+                    ResourcesController.GetAudioClip(Info.path, "saber_hit_0t.wav"),
+                    ResourcesController.GetAudioClip(Info.path, "saber_hit_1t.wav"),
+                    ResourcesController.GetAudioClip(Info.path, "saber_hit_2t.wav"),
+                    ResourcesController.GetAudioClip(Info.path, "saber_hit_3t.wav")
                 };
                 soundHolder.special2Sounds = soundHolder.hitSounds;
                 soundHolder.defendSounds = soundHolder.hitSounds;
                 soundHolder.special4Sounds = new AudioClip[]
                 {
-                    ResourcesController.GetAudioClip(info.path, "saber_hit_bullet.wav")
+                    ResourcesController.GetAudioClip(Info.path, "saber_hit_bullet.wav")
                 };
                 soundHolder.specialAttackSounds = new AudioClip[]
                 {
-                    ResourcesController.GetAudioClip(info.path, "force_1.wav"),
-                    ResourcesController.GetAudioClip(info.path, "force_2.wav"),
-                    ResourcesController.GetAudioClip(info.path, "force_3.wav")
+                    ResourcesController.GetAudioClip(Info.path, "force_1.wav"),
+                    ResourcesController.GetAudioClip(Info.path, "force_2.wav"),
+                    ResourcesController.GetAudioClip(Info.path, "force_3.wav")
                 };
-                _forcePush = ResourcesController.GetAudioClip(info.path, "force_push.wav");
+                _forcePush = ResourcesController.GetAudioClip(Info.path, "force_push.wav");
             }
             catch(Exception ex)
             {

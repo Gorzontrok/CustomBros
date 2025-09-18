@@ -95,7 +95,7 @@ namespace BronobiMod
                 return;
             try
             {
-                string path = mindController.As<CustomHero>().info.path;
+                string path = mindController.As<CustomHero>().Info.path;
                 _blindStars = new Texture2D[3] {
                         ResourcesController.GetTexture(path, "blind_stars_white1.png"),
                         ResourcesController.GetTexture(path, "blind_stars_white2.png"),

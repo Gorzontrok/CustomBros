@@ -5,6 +5,8 @@
     "BetterAnimation": true,
     "Avatar": "avatar_Bronobi.png",
     "SpecialIcons": "Bronobi_ammo.png",
+    "Sprite": "Bronobi_anim.png",
+    "GunSprite": "Bronobi_gun_anim.png",
     "SpecialIconSpacing": 6,
     "GunSpriteOffset": {
       "x": 4,
@@ -12,7 +14,6 @@
     }
   },
   "abilities": {
-    //"BronobiMindControlWave": [ "UseSpecial" ]
   },
   "beforeAwake": {
     "_jumpForce": 300,
@@ -29,8 +30,6 @@
   "afterAwake": {},
   "beforeStart": {},
   "afterStart": {
-    "sprite": "Bronobi_anim.png",
-    "gunSprite": "Bronobi_gun_anim.png"
   },
   "cutscene": {
     "playCutsceneOnFirstSpawn": true,
