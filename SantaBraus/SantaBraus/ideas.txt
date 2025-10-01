@@ -1,0 +1,6 @@
+﻿When press special(?) spawn a present that can be open and give something to player
+ - Inifinite number of present ?
+ - Types: Pocketted, Grenades, Weapon(to replace attack or melee), Flex Power
+
+Create Presents by "assimilating" blood? and/or rescue
+ - So present spawn automaticaly after X amount ?

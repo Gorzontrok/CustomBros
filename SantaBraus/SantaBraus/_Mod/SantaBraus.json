@@ -1,0 +1,79 @@
+{
+  "name": "Santa Braus",
+  "characterPreset": "SantaBraus",
+  "parameters": {
+    "BetterAnimation": true,
+    "Avatar": "avatar_SantaBraus.png",
+    "Sprite": "SantaBraus_anim.png",
+    "GunSprite": "SantaBraus_gun_anim_disarmed.png",
+    "GunSpriteOffset": {
+      "x": 0,
+      "y": 0
+    }
+  },
+  "beforeAwake": {
+    "canChimneyFlip": true,
+    "originalSpecialAmmo": 0,
+    "fireRate":  0.1
+  },
+  "afterAwake": {},
+  "beforeStart": {},
+  "afterStart": {
+  },
+  "cutscene": {
+    "playCutsceneOnFirstSpawn": true,
+    "heading": "Santa Braus",
+    "headingScale": 0.20,
+    "headingColor": {
+      "r": 0.925,
+      "g": 0.016,
+      "b": 0.082,
+      "a": 1.0
+    },
+
+    "subtitle1": "",
+    "subtitle1Color": {
+      "r": 0.278,
+      "g": 0.376,
+      "b": 0.953,
+      "a": 1.0
+    },
+    "subtitleScale": 0.1,
+
+    "hasSecondSubtitle": true,
+    "subtitle2": "MERRY BROXMAS MOTHERF*CKER",
+    "subtitle2Color": {
+      "r": 0.278,
+      "g": 0.753,
+      "b": 0.953,
+      "a": 1.0
+    },
+    "subtitle2Scale": 0.7,
+
+    "spritePath": "SantaBraus_cutscene.png",
+    "spriteSize": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "spriteRect": {
+      "x": 0.0,
+      "y": 0.0,
+      "width": 256,
+      "height": 256
+    },
+    "isAnimated": false,
+    "animationLoop": false,
+    "animationPingPong": false,
+    "animationStartDelay": 0.5,
+    "spriteAnimRateFramesWidth": {
+      "FrameRate": 0.08,
+      "TotalFrames": 6,
+      "FrameWidth": 42.5
+    },
+    "barkPath": "",
+    "playDefaultFanfare": true,
+    "fanfarePath": "",
+    "anim": "",
+    "backgroundPath": ""
+  }
+}

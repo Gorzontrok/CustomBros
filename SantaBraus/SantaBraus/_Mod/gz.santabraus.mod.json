@@ -1,0 +1,16 @@
+{
+    "Name": "Santa Braus",
+    "Version": "0.0.0",
+    "BroMakerVersion": "2.6.0",
+    "Author": "Gorzontrok",
+    "HasHarmonyPatch": true,
+
+    "CustomBros":[
+        "SantaBraus.json"
+    ],
+    "Assemblies": [
+      "SantaBraus.dll"
+    ],
+    "Abilities": [
+    ]
+}
