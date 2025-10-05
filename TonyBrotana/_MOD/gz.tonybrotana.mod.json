@@ -1,0 +1,53 @@
+{
+  "Version": "1.0.0",
+  "BroMakerVersion": "2.6.0",
+  "Name": "Tony Brotana",
+  "Author": "Gorzontrok",
+  "Assemblies": [
+    "TonyBrotana.dll"
+  ],
+  "CustomBros":[
+    {
+      "name": "Tony Brotana",
+      "characterPreset": "TonyBrotana",
+      "parameters": {
+        "BetterAnimation": true,
+        "SpecialIcons": "TonyBrotana_SpecialHUD.png",
+        "Avatar": "avatar_TonyBrotana.png",
+        "Sprite": "TonyBrotana_anim.png",
+        "GunSprite": "TonyBrotana_gun_anim.png",
+        "GunSpriteOffset":
+        {
+          "x": 0,
+          "y": 0
+        }
+      },
+      "cutscene": {
+        "heading": "Tony Brotana",
+        "subtitle1": "Joins the Battle!",
+        "headingScale": 0.14,
+        "spriteRect":
+        {
+        "x": 0,
+        "y": 256,
+        "width": 256,
+        "height": 256
+        },
+        "spritePath": "cutscene.png",
+        "anim": "Intro_Bro_Rambro",
+        "playCutsceneOnFirstSpawn": true
+      },
+      "beforeAwake": {
+          "originalSpecialAmmo": 6,
+          "fireRate": 0.08,
+          "canChimneyFlip": true,
+          "meleeType": 8
+      },
+      "afterAwake": {},
+      "beforeStart": {
+      },
+      "afterStart": {
+      }
+    }
+  ]
+}
