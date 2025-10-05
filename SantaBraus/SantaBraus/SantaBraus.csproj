@@ -38,9 +38,9 @@
     <Reference Include="Assembly-CSharp">
       <HintPath>$(LibPath)\Assembly-CSharp.dll</HintPath>
     </Reference>
-    <Reference Include="BroMakerLib">
-      <HintPath>$(BroforcePath)\Mods\BroMaker\BroMakerLib.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="BroMakerLib, Version=2.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Broforce\Mods\BroMaker\BroMakerLib.dll</HintPath>
     </Reference>
     <Reference Include="RocketLib">
       <HintPath>$(BroforcePath)\Mods\RocketLib\RocketLib.dll</HintPath>
