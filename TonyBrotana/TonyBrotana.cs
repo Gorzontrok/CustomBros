@@ -23,6 +23,18 @@ namespace TonyBrotanaMod
         protected float rocketDelay = 0.25f;
         protected bool willFireRocket = false;
         protected Projectile rocket;
+        protected int bankAccount = 0;
+
+        public void AddMoney(int amount)
+        {
+            bankAccount += amount;
+
+            if (bankAccount >= 5)
+            {
+                AddSpecialAmmo();
+                bankAccount = 0;
+            }
+        }
 
         protected override void Awake()
         {
