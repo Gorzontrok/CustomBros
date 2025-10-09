@@ -58,6 +58,7 @@ namespace TonyBrotanaMod
         {
             if (willFireRocket)
             {
+                xIBlast = -transform.localScale.x * 40f;
                 Projectile rocketSpawned = ProjectileController.SpawnProjectileLocally(rocket, this, x, y, xSpeed, ySpeed, playerNum);
                 rocketSpawned.SetRendererTexture(RocketTexture);
                 return rocketSpawned;
