@@ -1,30 +1,29 @@
 {
-    "Name": "Bronobi",
-    "Version": "1.0.1",
-    "BroMakerVersion": "2.6.0",
-    "Author": "Gorzontrok",
-
-    "CustomBros":[
-        "Bronobi.json"
-    ],
-    "Assemblies": [
-        "Bronobi.dll"
-    ],
-    "Abilities": [
-        {
-          "name": "BronobiMindControlWave",
-          "preset": "MindControlWave",
-          "beforeAwake": {
-            "waveTexture": "BronobiForceWave.png",
-            "controlTime":  10
-          }
-        },
-        {
-          "name": "BronobiForceWave",
-          "preset": "ForceWave",
-          "beforeAwake": {
-            "forceWaveTexture": "BronobiForceWave.png"
-          }
-        }
-    ]
+  "Name": "Bronobi",
+  "Version": "1.0.1",
+  "BroMakerVersion": "2.6.2",
+  "Author": "Gorzontrok",
+  "CustomBros": [
+    "Bronobi.json"
+  ],
+  "Assemblies": [
+    "Bronobi.dll"
+  ],
+  "Abilities": [
+    {
+      "name": "BronobiMindControlWave",
+      "preset": "MindControlWave",
+      "beforeAwake": {
+        "waveTexture": "BronobiForceWave.png",
+        "controlTime": 10
+      }
+    },
+    {
+      "name": "BronobiForceWave",
+      "preset": "ForceWave",
+      "beforeAwake": {
+        "forceWaveTexture": "BronobiForceWave.png"
+      }
+    }
+  ]
 }
