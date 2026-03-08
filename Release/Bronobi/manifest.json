@@ -1,0 +1,12 @@
+{
+  "name": "Bronobi",
+  "author": "Gorzontrok",
+  "version_number": "1.0.1",
+  "website_url": "https://github.com/Gorzontrok/CustomBros/tree/main/Bronobi",
+  "description": "Bronobi Joins the Battle!",
+  "dependencies": [
+    "RocketLib-RocketLib-2.4.3",
+    "BroMaker-BroMaker-2.6.2",
+    "UMM-UMM-1.1.0"
+  ]
+}
